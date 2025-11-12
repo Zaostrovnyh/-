@@ -1,0 +1,59 @@
+while True:
+    number = 1
+    counter = 0
+    obj_new = 0
+    num_max = 0
+
+    try:
+        with open("dict.html", "r+") as my_file:
+            actual_dict = my_file.readlines()
+            if counter == 0:
+                try:
+                    for list in actual_dict:
+                        list = list.split("." )
+                        if int(list[0])>num_max:
+                                num_max = int(list[0])
+                except ValueError:
+                    print()
+                number = num_max + 1
+            print("Что вы хотите сделать?\n"
+                "1. Добавить новую книгу\n"
+                "2. Просмотреть весь список\n"
+                "3. Удалить книгу по номеру\n"
+                "4. Очистить список целиком" )
+            quest = input()
+            if quest == "1":
+                book = "\n" + str(number) + "." + input("Напишите название книги\n") + " " +input("Напишите год издания книги\n") + " "
+                my_file.write(book)
+                actual_file = my_file.readlines()
+            elif quest == "2":
+                print(my_file.read())
+            elif quest == "3":
+                question = input("Введите номер книги, которую вы хотите удалить\n")
+                actual_file = my_file.readlines()
+                for line in actual_dict:
+                    line = line.split(".")
+                    actual_dict = []
+                    actual_dict.append(line)
+                for object in line:
+
+                        if object == question:
+                            print(object)
+                            line.pop(line.index(object) + 1)
+                            line.remove(object)
+
+                print(line)
+                my_file.truncate(0)
+                for line in actual_dict:
+                    for obj in line:
+                        my_file.write(obj)
+            elif quest == "4":
+                question = input("Вы уверены?\n")
+                while True:
+                    if question == "Да":
+                        my_file.truncate(0)
+                        break
+                    elif question == "Нет":
+                        break
+    finally:
+        my_file.close()
